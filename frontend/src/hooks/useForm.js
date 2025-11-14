@@ -1,7 +1,7 @@
 import { useState } from "react"
 
 //inicializo el hook, q recibe un initialState que por default es un objeto vacio 
-const useForm = (initialState = {}) => {
+export const useForm = (initialState = {}) => {
     //estado inicial del form
     const [formState, setFormState] = useState(initialState) 
 
