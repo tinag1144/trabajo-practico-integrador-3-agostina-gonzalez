@@ -7,12 +7,16 @@ const useForm = (initialState = {}) => {
 
     //funcion que maneja los cambios en el input 
     const handleChange = ({target}) => {
-      const {name, value} = target;
+      const {name, value, type, checked} = target;
+
+      //si el input es un checkbox, su valor es "checked", si es cualquier otro, uso value
+      const newValue = type === "checkbox" ? checked : value;
+
 
       //actualizo el estado del form
       setFormState({
         ...formState,
-        [name]: value //[name] es una propiedad que puede ser username, email, o lo q sea que hay en el input 
+        [name]: newValue //[name] es una propiedad que puede ser username, email, o lo q sea que hay en el input 
       })
     };
 
