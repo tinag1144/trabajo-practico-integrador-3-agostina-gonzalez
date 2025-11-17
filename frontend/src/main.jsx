@@ -1,19 +1,19 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import './index.css'
-import App from './App.jsx'
+// Punto de entrada de la app. Monta el componente <App /> en el div #root.
+// Acá también importamos Bootstrap y nuestro CSS global.
 
-createRoot(document.getElementById('root')).render(
-  
-  <StrictMode>
-    <BrowserRouter/>
-    
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { App } from "./App.jsx";
+
+// Estilos de Bootstrap
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
+// Nuestro CSS personalizado (colores rositas y ajustes)
+import "./index.css";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
     <App />
-    
-    <BrowserRouter/>
-  </StrictMode>,
-)
+  </React.StrictMode>
+);

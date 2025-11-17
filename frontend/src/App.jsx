@@ -1,12 +1,9 @@
-import React from 'react'
-import LoginPage from './pages/LoginPage'
+import { AppRouter } from "./router/AppRouter.jsx";
 
-const App = () => {
+export const App = () => {
   return (
-    <>
-      <LoginPage/>
-    </>
-  )
-}
-
-export default App
+    <div className="d-flex flex-column min-vh-100 app-bg">
+      <AppRouter />
+    </div>
+  );
+};
