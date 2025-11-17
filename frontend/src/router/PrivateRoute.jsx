@@ -1,46 +1,41 @@
-import { useState, useEffect } from "react"
-import { Navigate } from "react-router-dom"
-import { Loading } from "../components/Loading"
+import { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
+import { Loading } from "../components/Loading.jsx";
 
-//con este componente se "envuelven" las rutas privadas 
-//se va a renderizar "children" solo si el usuario está autenticado
-const PrivateRoute = ({ children }) => {
-  
-  //loading es el que va a indicar si estamos verificando la autenticación
-  const [loading, setLoading] = useState(true)
-
-  //"authenticated" se vuelve tre si es que la API confirma que hay un usuario logueado
+// Todo lo que vaya dentro de <PrivateRoute>...</PrivateRoute> viene acá como 'children'.
+// Acá lo muestro solo si el usuario está autenticado.
+export const PrivateRoute = ({ children }) => {
+  const [loading, setLoading] = useState(true); 
   const [authenticated, setAuthenticated] = useState(false);
 
-  //useEffect se ejecuta UNA vez cuand se monta el componente y llama al backend para verificar si hay una sesión activa 
-
+  //se ejecuta solo una vez, se hace una consulta al backend para ver si el usuario tiene una sesipon activa 
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await fetch("http:localhost:3000/api/profile", { //se hace una peticion al endpoint 
+        //y acá se consulta si existe la cookie (cookie = sesión activa )
+        const res = await fetch("http://localhost:3000/api/profile", {
           method: "GET",
-          credentials: "include", //envia cookies
+          credentials: "include",
         });
 
-        if (res.ok) {
-          setAuthenticated(true) 
-        } else {
-          setAuthenticated(false)
-        }
+        setAuthenticated(res.ok);
       } catch (error) {
-        alert("Error verificando autenticación")
-        console.error("Error: ", error);
-        
+        console.error("Error verificando autenticación:", error);
+        setAuthenticated(false);
+      } finally {
+        setLoading(false);
       }
-    }
-  }, [])
+    };
 
-  if (loading) return <Loading/> //si hay un loading, mostrar loading
+    checkAuth();
+  }, []);
 
-  if (!authenticated) return <Navigate to = "/login"/> //si no está autenticado, redirigir a login
+  if (loading) return <Loading />;
 
+  //si no está autenticado, manda al login de nuevo 
+  if (!authenticated) return <Navigate to="/login" />;
 
-  return children //si está autenticado, se renderiza la página normalmente 
-}
+  //Retorno todo el componente 
 
-export default PrivateRoute
+  return children;
+};
